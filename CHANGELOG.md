@@ -1,5 +1,36 @@
 # CHANGELOG — DOSHorse_Core
 
+## v0.0.4-Mazor — 2026-06-01
+
+Eerste C-implementatie van de Public API + libdoshorse_core.a build.
+
+### Toegevoegd
+- **`src/doshorse/version.c`** — volledige (geen stub) impl van `doshorse_get_version_string()` + `doshorse_get_api_version()`. Retourneert header-defined constants
+- **`src/doshorse/core.c`** — stub-impl van `doshorse_create/destroy/load_image/step_frame`. Lifecycle (create/destroy) volledig werkend; `load_image`/`step_frame` retourneren pretend-success (0). Volledige dosbox-x-koppeling komt v0.0.7+ via `bindings/sdl2/`, `bindings/wasm/`, `bindings/jni/`
+- **`src/doshorse/savestate.c`** — stub-impl van `doshorse_save_state/load_state/state_get_format_version/state_get_machine_config`. Allemaal retourneren -1 (not-implemented). ZIP-container `.dhs` serialisatie komt v0.0.7+
+- **`Makefile`** — CC-based build met targets: `lib` (default), `smoke`, `apply-patches`, `clean-patches`, `clean`, `help`, `version`. `make lib` produceert `build/libdoshorse_core.a` (~4 KB)
+- **`test/smoke.c`** — 5 assertion-groepen die libdoshorse_core.a end-to-end testen: introspection, create lifecycle, NULL-config defensiveness, stub-error-paden, destroy
+
+### Bewezen lokaal (2026-06-01)
+```
+$ make lib && make smoke
+✓ Built build/libdoshorse_core.a (4.0K)
+✓ Introspection: version=0.0.4-Mazor api=1
+✓ Create: 80386 16MB VGA SB16-AdLib-PCSpkr
+✓ Stub error paths: load_image=0 step_frame=0 save/load/get_*=-1
+✓ Destroy: no crash on valid+NULL
+All smoke tests passed for DOSHorse_Core 0.0.4-Mazor (API v1)
+```
+
+### Codenaam-rationale
+**Mazor** = Stanley Mazor (1969-1971) — co-architect van de Intel 4004 (Faggin/Hoff/Mazor-team). Schreef de instructie-set spec voor de 4004 — de **eerste architecturale blueprint** van wat later x86 zou worden. Past bij DOSHorse_Core's **eerste C-implementatie van de Public API**: we leggen de architecturale blueprint vast in code.
+
+### Niet uitgevoerd (v0.0.7+)
+- Echte koppeling van core.c stub-impl aan dosbox-x' internal CPU/IMGMOUNT/etc. state
+- `.dhs` ZIP-container serialisatie voor save-states
+- Platform-bindings: `bindings/sdl2/`, `bindings/wasm/`, `bindings/jni/`
+- CMakeLists.txt-variant (Makefile volstaat voor v0.0.4)
+
 ## v0.0.3-Canion — 2026-06-01
 
 Public API skeleton + eerste branding-patch.

@@ -13,9 +13,9 @@
 
 #define DOSHORSE_VERSION_MAJOR    0
 #define DOSHORSE_VERSION_MINOR    0
-#define DOSHORSE_VERSION_PATCH    3
-#define DOSHORSE_VERSION_CODENAME "Canion"
-#define DOSHORSE_VERSION_STRING   "0.0.3-Canion"
+#define DOSHORSE_VERSION_PATCH    4
+#define DOSHORSE_VERSION_CODENAME "Mazor"
+#define DOSHORSE_VERSION_STRING   "0.0.4-Mazor"
 
 /* ABI/API version of the DOSHorse Public C-API.
  * Bumped only on breaking signature changes (semver-major equivalent).
