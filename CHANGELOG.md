@@ -1,5 +1,23 @@
 # CHANGELOG — DOSHorse_Core
 
+## v0.0.3-Canion — 2026-06-01
+
+Public API skeleton + eerste branding-patch.
+
+### Toegevoegd
+- **`include/doshorse/version.h`** — DOSHORSE_VERSION_{MAJOR,MINOR,PATCH,CODENAME,STRING} macros + DOSHORSE_API_VERSION (gestart op 1, bumped op breaking signature changes)
+- **`include/doshorse/core.h`** — Public C-API skeleton (signatures only): `doshorse_create/destroy/load_image/step_frame/get_version_string/get_api_version` + `doshorse_config_t` struct (cpu_type, memory_kb, video_mode, audio_mask). C-stijl (geen C++) per beslispunt C2 voor maximale FFI-friendliness (JNI/WASM/dlopen)
+- **`include/doshorse/savestate.h`** — Save-state Public API skeleton (P-DSH-04): `doshorse_save_state/load_state/state_get_format_version/state_get_machine_config`, `.dhs`-extensie, format-versie 1
+- **`patches/0001-doshorse-branding.patch`** — eerste source-modificatie van upstream dosbox-x: voegt 1-regel DOSHorse-banner toe vóór de `--version` en `--help` output (geen wijziging aan upstream-tekst, additive only). Behoudt P-DSH-01 (upstream-clean attributie + AGPL §13 compliance)
+- **`tools/apply-patches.sh`** — applicatie-script (bash) dat alle `.patch` files in `patches/` op `upstream/dosbox-x/` toepast. Eigenschappen: idempotent (skip-if-applied), check-pre-apply (`git apply --check`), exit-on-failure, alphabetical order
+
+### Bewezen in praktijk
+- Patch geslaagd toegepast + idempotent re-run + clean rollback via `git checkout` (lokale verificatie 2026-06-01)
+- DOSHorse_X86 v0.0.3-Noyce smoke-test #3 hercompileert binary met patch en `--version` toont DOSHorse-banner (zie BUILD_LOG.md #3)
+
+### Codenaam-rationale
+**Canion** = Rod Canion (Compaq founder, 1982) — pioneer van de PC-compatible fork-industrie via Compaq's clean-room reverse-engineering van IBM PC BIOS. Past bij DOSHorse_Core's **eerste eigen source-patches** op upstream dosbox-x: we maken de fork echt eigen (zoals Canion's Compaq de PC-compat industrie eigen maakte).
+
 ## v0.0.2-Dean — 2026-05-31
 
 dosbox-x upstream-import (newp WhatIf-vervolg "verder met DOSHorse v0.0.2-import").

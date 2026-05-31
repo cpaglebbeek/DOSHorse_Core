@@ -1,0 +1,47 @@
+From: cpaglebbeek <cglebbeek@gmail.com>
+Date: 2026-06-01
+Subject: [PATCH 0001] Add DOSHorse branding banner to --version and --help
+
+Adds a one-line "DOSHorse version 0.0.3-Canion (forked from upstream below)"
+banner before the upstream DOSBox-X version output, in both the `--version`
+and `--help` command paths.
+
+Preserves all upstream DOSBox-X attribution per:
+  - P-DSH-01 (Upstream first / upstream-clean attribution)
+  - AGPL-3.0 §13 + GPL-3.0 §5 (combined work — retain original notices)
+  - DOSHORSE README's fork-attribution to joncampbell123/dosbox-x
+
+This is the first DOSHorse source-modification on the dosbox-x submodule;
+applied at build-time via tools/apply-patches.sh, never committed into the
+submodule itself (P-DSH-01 / ARCHITECTURE.md §Variant 1).
+
+Target file:
+  src/gui/sdlmain.cpp
+
+Lines added: 2 (one banner-fprintf for each of the two `--version` callsites)
+Lines removed: 0
+Total delta: +2
+
+---
+ src/gui/sdlmain.cpp | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/src/gui/sdlmain.cpp b/src/gui/sdlmain.cpp
+--- a/src/gui/sdlmain.cpp
++++ b/src/gui/sdlmain.cpp
+@@ -7362,6 +7362,7 @@
+         if (optname == "v" || optname == "ver" || optname == "version") {
+             DOSBox_ShowConsole();
+
++            fprintf(stderr,"\nDOSHorse version 0.0.3-Canion (forked from upstream below)\n");
+             fprintf(stderr,"\nDOSBox-X version %s %s, copyright 2011-%s The DOSBox-X Team.\n",VERSION,SDL_STRING,COPYRIGHT_END_YEAR);
+             fprintf(stderr,"DOSBox-X project maintainer: joncampbell123 (The Great Codeholio)\n\n");
+             fprintf(stderr,"DOSBox-X comes with ABSOLUTELY NO WARRANTY.  This is free software,\n");
+@@ -7377,6 +7378,7 @@
+         else if (optname == "?" || optname == "h" || optname == "help") {
+             DOSBox_ShowConsole();
+
++            fprintf(stderr,"\nDOSHorse version 0.0.3-Canion (forked from upstream below)\n");
+             fprintf(stderr,"\nDOSBox-X version %s %s, copyright 2011-%s The DOSBox-X Team.\n",VERSION,SDL_STRING,COPYRIGHT_END_YEAR);
+             fprintf(stderr,"DOSBox-X project maintainer: joncampbell123 (The Great Codeholio)\n\n");
+             fprintf(stderr,"dosbox-x [name] [options]\n\n");
