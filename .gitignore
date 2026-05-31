@@ -1,0 +1,12 @@
+.DS_Store
+*.swp
+*~
+.vscode/
+.idea/
+build/
+cmake-build-*/
+*.o
+*.a
+*.so
+*.dylib
+*.dll
