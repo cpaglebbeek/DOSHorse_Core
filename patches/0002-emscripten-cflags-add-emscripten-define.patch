@@ -1,0 +1,38 @@
+From: cpaglebbeek <cglebbeek@gmail.com>
+Date: 2026-06-01
+Subject: [PATCH 0002] Add -DEMSCRIPTEN=1 to CFLAGS in build-emscripten-sdl2
+
+dosbox-x' build-emscripten-sdl2 script exports CXXFLAGS with -DEMSCRIPTEN=1
+but CFLAGS (used for plain C files) lacks it. This causes a compile-fail
+in src/hardware/snd_pc98/sound/opngenc.c where include/np2glue.h:40
+triggers '#error byteorder not enough information' — the EMSCRIPTEN-define
+gate for BYTESEX_LITTLE is never reached during C-compile.
+
+Diagnose context: emsdk 5.0.7 + macOS Intel host (DOSHorse v0.0.3-Sutherland
+Track B sub-step 3 / build-emscripten-sdl2 first run, 2026-06-01).
+
+Upstream-first per P-DSH-01: this should be PR'd to joncampbell123/dosbox-x
+as a 1-line fix. Tracking: TODO add to UPSTREAM_PR_QUEUE.md (te maken).
+
+Target file:
+  build-emscripten-sdl2
+
+Lines changed: 1 (one CFLAGS line gets +' -DEMSCRIPTEN=1')
+Total delta: +1 -1 (net +0)
+
+---
+ build-emscripten-sdl2 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/build-emscripten-sdl2 b/build-emscripten-sdl2
+--- a/build-emscripten-sdl2
++++ b/build-emscripten-sdl2
+@@ -23,7 +23,7 @@ LD="emcc"
+ LD_CXX="em++"
+ AR="emar"
+ RANLIB="emranlib"
+-CFLAGS="-DEMTERPRETER_SYNC"
++CFLAGS="-DEMTERPRETER_SYNC -DEMSCRIPTEN=1"
+ CXXFLAGS="-DEMSCRIPTEN=1 -DEMTERPRETER_SYNC -s USE_ZLIB=1 -s USE_LIBPNG=1 -s USE_SDL=2 -s USE_SDL_NET=2"
+ LDFLAGS="-DEMSCRIPTEN=1 -DEMTERPRETER_SYNC -s USE_ZLIB=1 -s USE_LIBPNG=1 -s USE_SDL=2 -s USE_SDL_NET=2 -s FORCE_FILESYSTEM=1 -s ALLOW_MEMORY_GROWTH=1 -s TOTAL_MEMORY=100663296 -s ASYNCIFY -s ERROR_ON_UNDEFINED_SYMBOLS=0"
+ export CC CXX LD LD_CXX AR RANLIB CFLAGS CXXFLAGS LDFLAGS

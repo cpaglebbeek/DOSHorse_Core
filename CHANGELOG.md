@@ -1,5 +1,23 @@
 # CHANGELOG — DOSHorse_Core
 
+## v0.0.5-Roberts — 2026-06-01
+
+Hotfix: Emscripten C-compile enablement.
+
+### Toegevoegd
+- **`patches/0002-emscripten-cflags-add-emscripten-define.patch`** — 1-regel fix op `build-emscripten-sdl2`: voegt `-DEMSCRIPTEN=1` toe aan CFLAGS (was alleen in CXXFLAGS). Zonder deze fix faalt `src/hardware/snd_pc98/sound/opngenc.c` compile op `include/np2glue.h:40 #error byteorder not enough information` — de EMSCRIPTEN-define gate voor `BYTESEX_LITTLE` werd nooit bereikt tijdens C-compile.
+
+### Diagnose-context
+- Eerste praktische DOSHorse_Web v0.0.3-Sutherland WASM-build (sub-step 3) op host-Mac (Intel x86_64, macOS 26.3, emsdk 5.0.7)
+- 158 .o files compileerden succesvol, failure bij PC-98 sound-emulation C-file
+- Patch bewezen werkend lokaal: applied + verified `CFLAGS="-DEMTERPRETER_SYNC -DEMSCRIPTEN=1"`
+
+### Upstream-first (P-DSH-01) follow-up
+Deze patch is een 1-regel fix die idealiter naar upstream `joncampbell123/dosbox-x` als PR gaat. Tracking-locatie te maken: `Meta_DOSHorse/docs/UPSTREAM_PR_QUEUE.md`. Tot upstream-merge blijft de patch lokaal in onze fork.
+
+### Codenaam-rationale
+**Roberts** = Ed Roberts (Micro Instrumentation and Telemetry Systems, 1974) — designer van de Altair 8800, eerste commercieel succesvolle personal computer. **Enabled de microcomputer-revolutie** door een werkbaar platform te bieden voor third-party software (Microsoft BASIC kwam direct erna). Past bij DOSHorse_Core's **hotfix die de Emscripten WASM-target werkbaar maakt** — we enable DOSHorse op een nieuwe target zonder welke geen Web-runtime mogelijk is.
+
 ## v0.0.4-Mazor — 2026-06-01
 
 Eerste C-implementatie van de Public API + libdoshorse_core.a build.
